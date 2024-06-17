@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <header th:fragment="header(domain)">
+      <hgroup>
+        <h1>MailAdmin</h1>
+        <h2>Mailboxes manager</h2>
+      </hgroup>
+      <nav>
+        <div th:if="${domain == null || domain.id == null}" th:remove="tag">
+          <ul>
+            <li th:classappend="${#execInfo.processedTemplateName == 'domain_list'}?active"
+                th:attr="aria-current=${#execInfo.processedTemplateName == 'domain_list'}?page">
+              <a href="domain_list.html"
+                 th:text="#{domain.list.title}"
+                 th:href="@{/domains/list}">Domain List</a>
+            </li>
+            <li>
+              <a th:text="#{domain.overview.title}">Overview</a>
+            </li>
+            <li>
+              <a th:text="#{domain.edit.title}">Change</a>
+            </li>
+            <li>
+              <a th:text="#{domain.delete.title}">Delete</a>
+            </li>
+            <li>
+              <a th:text="#{mailboxes.title}">Mailboxes</a>
+            </li>
+            <li>
+              <a th:text="#{aliases.title}">Aliases</a>
+            </li>
+            <li class="signout">
+              <form th:action="@{/logout}" method="post">
+                <button type="submit" th:text="#{signout.title}">Sign Out</button>
+              </form>
+            </li>
+          </ul>
+        </div>
+        <div th:unless="${domain == null || domain.id == null}" th:remove="tag">
+          <ul>
+            <li>
+              <a href="domain_list.html"
+                 th:text="#{domain.list.title}"
+                 th:href="@{/domains/list}">Domain List</a>
+            </li>
+            <li th:classappend="${#execInfo.processedTemplateName == 'domain_overview'}?active"
+                th:attr="aria-current=${#execInfo.processedTemplateName == 'domain_overview'}?page">
+              <a th:text="#{domain.overview.title}" th:href="@{/domains/overview(id=${domain.id})}">Overview</a>
+            </li>
+            <li th:classappend="${#execInfo.processedTemplateName == 'domain_form'}?active"
+                th:attr="aria-current=${#execInfo.processedTemplateName == 'domain_form'}?page">
+              <a th:text="#{domain.edit.title}" th:href="@{/domains/form(id=${domain.id})}">Change</a>
+            </li>
+            <li th:classappend="${#execInfo.processedTemplateName == 'domain_delete'}?active"
+                th:attr="aria-current=${#execInfo.processedTemplateName == 'domain_delete'}?page">
+              <a th:text="#{domain.delete.title}" th:href="@{/domains/delete(id=${domain.id})}">Delete</a>
+            </li>
+            <li>
+              <a th:text="#{mailboxes.title}" th:href="@{/mailboxes/list(domain=${domain.id})}">Mailboxes</a>
+            </li>
+            <li>
+              <a th:text="#{aliases.title}" th:href="@{/aliases/list(domain=${domain.id})}">Aliases</a>
+            </li>
+            <li class="signout">
+              <form th:action="@{/logout}" method="post">
+                <button type="submit" th:text="#{signout.title}">Sign Out</button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+  </body>
+</html>

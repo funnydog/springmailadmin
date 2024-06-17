@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xlmns:th="http://www.thymeleaf.org">
+  <body>
+    <main>
+      <section>
+        <table class="overview" th:fragment="domain_table(domain)">
+          <tbody th:object="${domain}">
+            <tr>
+              <th scope="row">Name</th>
+              <td th:text="*{name}">example.com</td>
+            </tr>
+            <tr>
+              <th scope="row">Description</th>
+              <td th:text="*{description}">Business domain</td>
+            </tr>
+            <tr>
+              <th scope="row">Active</th>
+              <td th:text="#{*{active}}">Yes</td>
+            </tr>
+            <tr>
+              <th scope="row">Backup MX</th>
+              <td th:text="#{*{backup}}">No</td>
+            </tr>
+            <tr>
+              <th scope="row">Created on</th>
+              <td th:text="*{created}">2006-01-02 15:04 MST</td>
+            </tr>
+            <tr>
+              <th scope="row">Modified on</th>
+              <td th:text="*{modified}">2006-01-02 15:04 MST</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>

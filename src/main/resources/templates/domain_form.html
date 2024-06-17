@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="keywords" content="java webapp mailadmin">
+    <meta name="description" content="MailAdmin Web Application">
+    <title>MailAdmin</title>
+    <link rel="stylesheet" href="../static/css/styles.css" th:href="@{/css/styles.css}">
+  </head>
+  <body th:object="${domain}">
+    <header th:replace="~{menubar :: header(${domain})}"
+      <hgroup>
+        <h1>MailAdmin</h1>
+        <h2>Mailboxes manager</h2>
+      </hgroup>
+      <nav>
+        <ul>
+          <li class="active" aria-current="page">
+            <a>Domain List</a>
+          </li>
+          <li>
+            <a>Overview</a>
+          </li>
+          <li>
+            <a>Change</a>
+          </li>
+          <li>
+            <a>Delete</a>
+          </li>
+          <li>
+            <a>Mailboxes</a>
+          </li>
+          <li>
+            <a>Aliases</a>
+          </li>
+          <li class="signout">
+            <form method="post">
+              <button type="submit">Sign Out</button>
+            </form>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <aside class="flash-messages" th:if="${message}">
+        <ul th:remove="all-but-first">
+          <li th:each="m : ${messages}" th:text="${m}">Message1</li>
+          <li>Message2</li>
+          <li>Message3</li>
+        </ul>
+      </aside>
+      <section>
+        <h2 th:text="${title}">Domain Form</h2>
+        <form method="post" th:action="@{/domains/form}">
+          <input type="hidden" th:field="*{id}" />
+          <ul>
+            <li>
+              <label for="name">Name</label>
+              <input id="name" type="text" th:field="*{name}" required />
+              <span></span>
+            </li>
+            <li>
+              <label for="description">Description</label>
+              <textarea id="description" th:field="*{description}"></textarea>
+            </li>
+            <li>
+              <fieldset>
+                <legend>Options</legend>
+                <div>
+                  <input id="active" type="checkbox" checked th:field="*{active}"/>
+                  <label for="active">Active</label>
+                </div>
+                <div>
+                  <input id="backup" type="checkbox" th:field="*{backup}" />
+                  <label for="backup">Backup MX</label>
+                </div>
+              </fieldset>
+            </li>
+            <li>
+              <button type="submit">Confirm</button>
+            </li>
+          </ul>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

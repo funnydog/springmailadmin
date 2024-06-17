@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="keywords" content="java webapp mailadmin">
+    <meta name="description" content="MailAdmin Web Application">
+    <title>MailAdmin</title>
+    <link rel="stylesheet" href="../static/css/styles.css" th:href="@{/css/styles.css}">
+  </head>
+  <body>
+    <header th:replace="~{menubar :: header(${domain})}"
+      <hgroup>
+        <h1>MailAdmin</h1>
+        <h2>Mailboxes manager</h2>
+      </hgroup>
+      <nav>
+        <ul>
+          <li class="active" aria-current="page">
+            <a>Domain List</a>
+          </li>
+          <li>
+            <a>Overview</a>
+          </li>
+          <li>
+            <a>Change</a>
+          </li>
+          <li>
+            <a>Delete</a>
+          </li>
+          <li>
+            <a>Mailboxes</a>
+          </li>
+          <li>
+            <a>Aliases</a>
+          </li>
+          <li class="signout">
+            <form method="post">
+              <button type="submit">Sign Out</button>
+            </form>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <aside class="flash-messages" th:if="${flashMessages}">
+        <ul th:each="m : ${flashMessages}" th:remove="all-but-first">
+          <li th:text="${m}">Message1</li>
+          <li>Message2</li>
+          <li>Message3</li>
+        </ul>
+      </aside>
+      <section>
+        <h2>Domain List</h2>
+        <table class="domains">
+          <caption>
+            <span>No. <span th:remove="tag" th:text="${#lists.size(domains)}">13</span> Managed Domains</span>
+            <a href="domain_new.html" th:href="@{/domains/form}"><button>New Domain</button></a>
+          </caption>
+          <thead>
+            <tr>
+              <th th:text="#{domain.name.label}">Name</th>
+              <th th:text="#{domain.active.label}">IsActive</th>
+              <th th:text="#{domain.backup.label}">IsBackupMX</th>
+              <th th:text="#{domain.modified.label}">Last Modified</th>
+              <th th:text="#{domain.actions.label}">Actions</th>
+            </tr>
+          </thead>
+          <tbody th:remove="all-but-first">
+            <tr th:each="d : ${domains}">
+              <td>
+                <a href="domain_overview.html"
+                   th:text="${d.name}" th:href="@{/domains/overview(id=${d.id})}">example.com</a>
+              </td>
+              <td th:text="#{${'domain.list.' + (d.active ? 'active' : 'inactive')}}">Active</td>
+              <td th:text="#{${'domain.list.' + (d.backup ? 'backup' : 'nonbackup')}}">No</td>
+              <td th:text="${d.modified}">2006-01-02 15:04:05 MST</td>
+              <td>
+                <a href="domain_form.html"
+                   th:href="@{/domains/form(id=${d.id})}" th:text="#{domain.action.edit}">edit</a> |
+                <a href="domain_delete.html"
+                   th:href="@{/domains/delete(id=${d.id})}" th:text="#{domain.action.delete}">del</a>
+              </td>
+            </tr>
+            <tr>
+              <td>microsoft.com</td>
+              <td>No</td>
+              <td>BackupMX</td>
+              <td>2006-01-02 15:04:05 MST</td>
+              <td>
+                <a href="domain_form.html">edit</a> |
+                <a href="domain_delete.html">del</a>
+              </td>
+            </tr>
+            <tr>
+              <td>google.com</td>
+              <td>Active</td>
+              <td>No</td>
+              <td>2006-01-02 15:04:05 MST</td>
+              <td>
+                <a href="domain_form.html">edit</a> |
+                <a href="domain_delete.html">del</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Sign In MailAdmin</title>
+    <style>
+      * {
+          box-sizing: border-box;
+      }
+      html {
+          font-family: sans-serif;
+      }
+      button,
+      input {
+          font-family: inherit;
+          font-size: 100%;
+      }
+      form {
+          max-width: 21rem;
+          margin: 0 auto;
+      }
+      header {
+          text-align: center;
+      }
+      h1 {
+          padding: 0;
+      }
+      h2 {
+          padding: 0;
+          color: grey;
+      }
+      form > div {
+          position: relative;
+          margin: 1rem 0;
+      }
+      div.button {
+          margin-top: 2rem;
+      }
+      div.error {
+          position: relative;
+          padding: 1rem;
+          border-left: .25rem solid #e50000;
+          background-color: #fcc4c4;
+          color: #990000;
+      }
+      div.info {
+          position:relative;
+          padding: 1rem;
+          border-left: .25rem solid #9eeaf9;
+          background-color: #cff4fc;
+          color: #055160;
+      }
+      button,
+      input,
+      label {
+          display: block;
+          width: 100%;
+      }
+      input {
+          appearance:none;
+          height: calc(3.5rem + 2px);
+          padding: 1.625rem .75rem .625rem .75rem;
+          border: 1px solid #ced4da;
+          border-radius: .375rem;
+      }
+      input::placeholder {
+          color: transparent;
+      }
+      input:focus {
+          outline: 0;
+          box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25);
+      }
+      label {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: calc(3.5rem + 2px);
+          padding: 1.25rem .75rem;
+          text-align: start;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          pointer-events: none;
+          border: 1px solid transparent;
+          color: black;
+          transform-origin: 0 0;
+          transition: all 0.15s ease-in-out;
+      }
+      input:focus ~ label,
+      input:not(:placeholder-shown) + label {
+          opacity: .65;
+          transform: scale(.85) translateY(-.5rem) translateX(.15rem);
+      }
+      button {
+          line-height: 1.5;
+          color: white;
+          background-color: #0d6efd;
+          border: 1px solid #0d6efd;
+          border-radius: .375rem;
+          padding: .5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <form th:action="@{/login}" method="post">
+      <div class="error" th:if="${param.error}" th:text="${param.error}">
+        Invalid username and password.
+      </div>
+      <div class="info" th:if="${param.logout}">
+        You have been logged out.
+      </div>
+      <header>
+        <h1>MailAdmin</h1>
+        <h2>Please sign in</h2>
+      </header>
+      <div>
+        <input type="text" id="username" name="username" placeholder="Username" required autofocus />
+        <label for="username">Username</label>
+      </div>
+      <div>
+        <input type="password" id="password" name="password" placeholder="Password" required />
+        <label for="password">Password</label>
+      </div>
+      <div><button type="submit">Sign In</button></div>
+    </form>
+  </body>
+</html>

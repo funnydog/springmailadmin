@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="keywords" content="java webapp mailadmin">
+    <meta name="description" content="MailAdmin Web Application">
+    <title>MailAdmin</title>
+    <link rel="stylesheet" href="../static/css/styles.css" th:href="@{/css/styles.css}">
+  </head>
+  <body>
+    <header th:replace="~{ alias_menubar :: menubar(${domain}) }">
+      <hgroup>
+        <h1>MailAdmin</h1>
+        <h2>Mailboxes manager</h2>
+      </hgroup>
+      <nav>
+        <ul>
+          <li>
+            <a>Domain List</a>
+          </li>
+          <li>
+            <a>Overview</a>
+          </li>
+          <li>
+            <a>Change</a>
+          </li>
+          <li>
+            <a>Delete</a>
+          </li>
+          <li>
+            <a>Mailboxes</a>
+          </li>
+          <li class="active" aria-current="page">
+            <a>Aliases</a>
+          </li>
+          <li class="signout">
+            <form method="post">
+              <button type="submit">Sign Out</button>
+            </form>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <aside class="flash-messages" th:if="${flashMessages}">
+        <ul th:each="m : ${flashMessages}" th:remove="all-but-first">
+          <li th:text="${m}">Message1</li>
+          <li>Message2</li>
+          <li>Message3</li>
+        </ul>
+      </aside>
+      <section>
+        <h2 th:text="${title}">Delete the alias</h2>
+        <table class="overview">
+          <tbody th:object="${alias}">
+            <tr>
+              <th scope="row">Destination</th>
+              <td th:text="*{destination}">test@example.com</td>
+            </tr>
+            <tr>
+              <th scope="row">Redirect</th>
+              <td th:text="*{redirect}">test2@example.org</td>
+            </tr>
+            <tr>
+              <th scope="row">Active</th>
+              <td th:text="*{active}">True</td>
+            </tr>
+            <tr>
+              <th scope="row">Created</th>
+              <td th:text="*{created}">2006-01-02 15:04:05 MST</td>
+            </tr>
+            <tr>
+              <th scope="row">Modified on</th>
+              <td th:text="*{modified}">2006-01-02 15:04:05 MST</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Are you sure you want to delete this alias?</p>
+        <form method="post" th:action="@{/aliases/delete(domain=${domain.id})}">
+          <input type="hidden" th:field="${alias.id}" />
+          <div>
+            <button type="submit">Yes, do it now</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

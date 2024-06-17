@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+  <body>
+    <header th:fragment="menubar(domain)">
+      <hgroup>
+        <h1>MailAdmin</h1>
+        <h2>Mailboxes manager</h2>
+      </hgroup>
+      <nav>
+        <ul th:object="${domain}">
+          <li>
+            <a th:href="@{/domains/list}">Domain List</a>
+          </li>
+          <li>
+            <a th:href="@{/domains/overview(id=*{id})}">Overview</a>
+          </li>
+          <li>
+            <a th:href="@{/domains/form(id=*{id})}">Change</a>
+          </li>
+          <li>
+            <a th:href="@{/domains/delete(id=*{id})}">Delete</a>
+          </li>
+          <li class="active" aria-current="page">
+            <a th:href="@{/mailboxes/list(domain=*{id})}">Mailboxes</a>
+          </li>
+          <li>
+            <a th:href="@{/aliases/list(domain=*{id})}">Aliases</a>
+          </li>
+          <li class="signout">
+            <form method="post">
+              <button type="submit">Sign Out</button>
+            </form>
+          </li>
+        </ul>
+      </nav>
+    </header>
+  </body>
+</html>

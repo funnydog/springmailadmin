@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="keywords" content="java webapp mailadmin">
+    <meta name="description" content="MailAdmin Web Application">
+    <title>MailAdmin</title>
+    <link rel="stylesheet" href="../static/css/styles.css" th:href="@{/css/styles.css}">
+  </head>
+  <body>
+    <header th:replace="~{mailbox_menubar :: menubar(${domain})}"
+      <hgroup>
+        <h1>MailAdmin</h1>
+        <h2>Mailboxes manager</h2>
+      </hgroup>
+      <nav>
+        <ul>
+          <li>
+            <a>Domain List</a>
+          </li>
+          <li>
+            <a>Overview</a>
+          </li>
+          <li>
+            <a>Change</a>
+          </li>
+          <li>
+            <a>Delete</a>
+          </li>
+          <li class="active" aria-current="page">
+            <a>Mailboxes</a>
+          </li>
+          <li>
+            <a>Aliases</a>
+          </li>
+          <li class="signout">
+            <form method="post">
+              <button type="submit">Sign Out</button>
+            </form>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <aside class="flash-messages" th:if="${flashMessages}">
+        <ul th:each="m : ${flashMessages}" th:remove="all-but-first">
+          <li th:text="${m}">Message1</li>
+          <li>Message2</li>
+          <li>Message3</li>
+        </ul>
+      </aside>
+      <section>
+        <h2 th:text="${title}">Create new mailbox</h2>
+        <form method="post" th:action="@{/mailboxes/form}" th:object="${mailbox}">
+          <input type="hidden" th:field="*{id}" />
+          <input type="hidden" th:field="*{domainId}" />
+          <ul>
+            <li>
+              <label for="email">E-Mail</label>
+              <input type="email" id="email" th:field="*{email}" required autofocus  />
+              <span></span>
+            </li>
+            <li>
+              <label for="password">Password</label>
+              <input type="password" id="password" th:field="*{password}" th:required="${param.id == null}"/>
+              <span></span>
+            </li>
+            <li>
+              <fieldset>
+                <legend>Options</legend>
+                <div>
+                  <input type="checkbox" id="active" th:field="*{active}" />
+                  <label for="active">Active</label>
+                </div>
+              </fieldset>
+            </li>
+            <li>
+              <button type="submit">Confirm</button>
+            </li>
+          </ul>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

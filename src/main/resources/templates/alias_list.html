@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="keywords" content="java webapp mailadmin">
+    <meta name="description" content="MailAdmin Web Application">
+    <title>MailAdmin</title>
+    <link rel="stylesheet" href="../static/css/styles.css" th:href="@{/css/styles.css}">
+  </head>
+  <body>
+    <header th:replace="~{ alias_menubar :: menubar(${domain}) }">
+      <hgroup>
+        <h1>MailAdmin</h1>
+        <h2>Mailboxes manager</h2>
+      </hgroup>
+      <nav>
+        <ul>
+          <li>
+            <a>Domain List</a>
+          </li>
+          <li>
+            <a>Overview</a>
+          </li>
+          <li>
+            <a>Change</a>
+          </li>
+          <li>
+            <a>Delete</a>
+          </li>
+          <li>
+            <a>Mailboxes</a>
+          </li>
+          <li class="active" aria-current="page">
+            <a>Aliases</a>
+          </li>
+          <li class="signout">
+            <form method="post">
+              <button type="submit">Sign Out</button>
+            </form>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <aside class="flash-messages" th:if="${flashMessages}">
+        <ul th:each="m : ${flashMessages}" th:remove="all-but-first">
+          <li th:text="${m}">Message1</li>
+          <li>Message2</li>
+          <li>Message3</li>
+        </ul>
+      </aside>
+      <section>
+        <h2>Aliases for <span th:text="${domain.name}">example.com</span></h2>
+        <table class="aliases">
+          <caption>
+            <span>No <span th:text="${#lists.size(aliases)}">2</span> Managed Aliases</span>
+            <a th:href="@{/aliases/form(domain=${domain.id})}"><button>New Alias</button></a>
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Destination</th>
+              <th scope="col">Redirect</th>
+              <th scope="col">Active</th>
+              <th scope="col">Modified</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody th:remove="all-but-first">
+            <tr th:each="a : ${aliases}">
+              <td><a th:href="@{/aliases/form(domain=${domain.id},id=${a.id})}"
+                     th:text="${a.destination}">test1@example.com</a></td>
+              <td th:text="${a.redirect}">test2@example.com</td>
+              <td th:text="${a.active}">Yes</td>
+              <td th:text="${a.modified}">2006-01-02 15:04:05 MST</td>
+              <td>
+                <a th:href="@{/aliases/delete(domain=${domain.id},id=${a.id})}">del</a>
+              </td>
+            </tr>
+            <tr>
+              <td>test2@example.com</td>
+              <td>test3@example.com</td>
+              <td>No</td>
+              <td>2006-01-02 15:04:05 MST</td>
+              <td>
+                <a>del</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>
