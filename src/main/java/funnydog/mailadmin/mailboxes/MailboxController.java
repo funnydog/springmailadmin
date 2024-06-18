@@ -92,7 +92,7 @@ public class MailboxController {
 
 		String message;
 		if (mailbox.getId() != null) {
-			// if the password is null set it to the old password
+			// if the password is empty replace with the old password
 			if (mailbox.getPassword() == null) {
 				Mailbox oldMailbox = mailboxRepository.findById(mailbox.getId());
 				if (oldMailbox != null) {
