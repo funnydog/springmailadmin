@@ -128,11 +128,13 @@ table {
     white-space: nowrap;
     border-collapse: collapse;
 }
+thead {
+    border-bottom: 2px solid black;
+}
 thead th {
     text-align: left;
 }
 tbody {
-    border-top: 2px solid black;
     border-bottom: 2px solid black;
 }
 tbody th {
