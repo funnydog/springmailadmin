@@ -27,8 +27,8 @@
             <a th:href="@{/aliases/list(domain=*{id})}">Aliases</a>
           </li>
           <li class="signout">
-            <form method="post">
-              <button type="submit">Sign Out</button>
+            <form th:action="@{/logout}" method="post">
+              <button type="submit" th:text="#{signout.title}">Sign Out</button>
             </form>
           </li>
         </ul>
