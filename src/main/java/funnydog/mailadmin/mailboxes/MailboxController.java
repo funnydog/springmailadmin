@@ -80,13 +80,23 @@ public class MailboxController {
 	}
 
 	@PostMapping("/form")
-	public String postForm(@Valid Mailbox mailbox,
+	public String postForm(@RequestParam("domain") Long domainId,
+			       @Valid Mailbox mailbox,
 			       BindingResult result,
 			       RedirectAttributes redirectAttributes,
 			       ModelMap model) {
+		Domain domain = domainRepository.findById(domainId);
+		if (domain == null) {
+			return "redirect:/domains/list";
+		}
+
 		if (result.hasErrors()) {
-			model.addAttribute("domain", domainRepository.findById(mailbox.getDomainId()));
+			model.addAttribute("domain", domain);
 			model.addAttribute("mailbox", mailbox);
+			model.addAttribute("title",
+					   mailbox.getId() == null
+					   ? "New Mailbox"
+					   : "Change Mailbox");
 			return "mailbox_form";
 		}
 

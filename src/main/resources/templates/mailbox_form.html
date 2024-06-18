@@ -52,7 +52,7 @@
       </aside>
       <section>
         <h2 th:text="${title}">Create new mailbox</h2>
-        <form method="post" th:action="@{/mailboxes/form}" th:object="${mailbox}">
+        <form method="post" th:action="@{/mailboxes/form(domain=${domain.id})}" th:object="${mailbox}">
           <input type="hidden" th:field="*{id}" />
           <input type="hidden" th:field="*{domainId}" />
           <ul>
