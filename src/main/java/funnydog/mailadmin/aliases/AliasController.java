@@ -3,13 +3,16 @@ package funnydog.mailadmin.aliases;
 import funnydog.mailadmin.domains.Domain;
 import funnydog.mailadmin.domains.DomainRepository;
 
+import jakarta.validation.Valid;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +27,14 @@ public class AliasController {
 
 	@Autowired
 	private AliasRepository aliasRepository;
+
+	@Autowired
+	private AliasValidator aliasValidator;
+
+	@InitBinder("alias")
+	public void initAliasBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(aliasValidator);
+	}
 
 	@GetMapping("/list")
 	public String getList(@RequestParam("domain") Long domainId,
@@ -70,7 +81,7 @@ public class AliasController {
 
 	@PostMapping("/form")
 	public String postForm(@RequestParam("domain") Long domainId,
-			       Alias alias,
+			       @Valid Alias alias,
 			       BindingResult bindingResult,
 			       RedirectAttributes redirectAttributes,
 			       ModelMap model) {

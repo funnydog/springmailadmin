@@ -5,11 +5,14 @@ import funnydog.mailadmin.domains.DomainRepository;
 
 import java.util.Collection;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,10 +29,21 @@ public class MailboxController {
 	@Autowired
 	private MailboxRepository mailboxRepository;
 
+	@Autowired
+	private MailboxValidator mailboxValidator;
+
+	@InitBinder("mailbox")
+	public void initMailboxBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(mailboxValidator);
+	}
+
 	@GetMapping("/list")
 	public String getList(@RequestParam("domain") Long domainId,
 			      ModelMap model) {
 		Domain domain = domainRepository.findById(domainId);
+		if (domain == null) {
+			return "redirect:/domains/list";
+		}
 		model.addAttribute("domain", domain);
 
 		Collection<Mailbox> mailboxes = mailboxRepository.findByDomainId(domainId);
@@ -66,11 +80,11 @@ public class MailboxController {
 	}
 
 	@PostMapping("/form")
-	public String postForm(Mailbox mailbox,
-			       BindingResult bindingResult,
+	public String postForm(@Valid Mailbox mailbox,
+			       BindingResult result,
 			       RedirectAttributes redirectAttributes,
 			       ModelMap model) {
-		if (bindingResult.hasErrors()) {
+		if (result.hasErrors()) {
 			model.addAttribute("domain", domainRepository.findById(mailbox.getDomainId()));
 			model.addAttribute("mailbox", mailbox);
 			return "mailbox_form";
