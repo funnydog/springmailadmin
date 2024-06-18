@@ -1,3 +1,8 @@
+-- authentication data
+INSERT INTO users(username,password,enabled) VALUES ('user','$2a$10$XRKlq21QvHTnR2hDMptn6u8W9/AxA00upBpU4qd.fJsR2ROH4u2RO', TRUE);
+INSERT INTO authorities(username,authority) VALUES('user','ROLE_USER');
+
+-- application data
 INSERT INTO domain(id, name,description,active,backup) VALUES (1, 'google.com','Main google domain',TRUE,FALSE);
 INSERT INTO mailbox(domain_id,email,password,active) VALUES(1,'clauper@google.com', 'pwd1', TRUE);
 INSERT INTO mailbox(domain_id,email,password,active) VALUES(1,'gstefani@google.com', 'pwd2', TRUE);
