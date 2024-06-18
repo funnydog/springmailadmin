@@ -18,7 +18,8 @@
             <li>
               <a th:text="#{domain.overview.title}">Overview</a>
             </li>
-            <li>
+            <li th:classappend="${#execInfo.processedTemplateName == 'domain_form'}?active"
+                th:attr="aria-current=${#execInfo.processedTemplateName == 'domain_form'}?page">
               <a th:text="#{domain.edit.title}">Change</a>
             </li>
             <li>

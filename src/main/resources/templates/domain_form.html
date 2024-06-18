@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../static/css/styles.css" th:href="@{/css/styles.css}">
   </head>
   <body th:object="${domain}">
-    <header th:replace="~{menubar :: header(${domain})}"
+    <header th:replace="~{domain_menubar :: header(${domain})}"
       <hgroup>
         <h1>MailAdmin</h1>
         <h2>Mailboxes manager</h2>
