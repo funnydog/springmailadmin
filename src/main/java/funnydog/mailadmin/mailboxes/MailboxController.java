@@ -103,7 +103,7 @@ public class MailboxController {
 			message = "The mailbox was successfully updated.";
 		} else {
 			mailboxRepository.create(mailbox);
-			message = "The mailbox was successuflly created.";
+			message = "The mailbox was successfully created.";
 		}
 		redirectAttributes.addFlashAttribute("flashMessages", message);
 		return "redirect:/mailboxes/list?domain=" + mailbox.getDomainId();
