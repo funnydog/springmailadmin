@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -31,6 +32,9 @@ public class MailboxController {
 
 	@Autowired
 	private MailboxValidator mailboxValidator;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@InitBinder("mailbox")
 	public void initMailboxBinder(WebDataBinder dataBinder) {
@@ -100,19 +104,30 @@ public class MailboxController {
 			return "mailbox_form";
 		}
 
+		Mailbox existing = mailboxRepository.findById(mailbox.getId());
+		if (existing == null) {
+			existing = new Mailbox();
+			existing.setDomainId(domain.getId());
+		}
+
+		// update the fields
+		existing.setEmail(mailbox.getEmail());
+		existing.setActive(mailbox.getActive());
+
+		// if empty the password isn't changed
+		// otherwise we should encode it
+		String password = mailbox.getPassword();
+		if (password != null && !password.isEmpty()) {
+			String encoded = passwordEncoder.encode(password);
+			existing.setPassword(encoded);
+		}
+
 		String message;
-		if (mailbox.getId() != null) {
-			// if the password is empty replace with the old password
-			if (mailbox.getPassword() == null) {
-				Mailbox oldMailbox = mailboxRepository.findById(mailbox.getId());
-				if (oldMailbox != null) {
-					mailbox.setPassword(oldMailbox.getPassword());
-				}
-			}
-			mailboxRepository.update(mailbox);
+		if (existing.getId() != null) {
+			mailboxRepository.update(existing);
 			message = "The mailbox was successfully updated.";
 		} else {
-			mailboxRepository.create(mailbox);
+			mailboxRepository.create(existing);
 			message = "The mailbox was successfully created.";
 		}
 		redirectAttributes.addFlashAttribute("flashMessages", message);
